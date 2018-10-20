@@ -9,6 +9,7 @@ public class PlayerController : MonoBehaviour {
     [SerializeField] private float jumpStrength = 3;
     [SerializeField] private AudioClip jumpNoise;
     [SerializeField] private float slowTime = 2;
+    [SerializeField] private float rotationSpeed = 1;
 
     private bool isTouchingGround = true;
     private bool isInSloMo = false;
@@ -45,6 +46,11 @@ public class PlayerController : MonoBehaviour {
         if (isInSloMo)
             timer += Time.deltaTime;
 
+        if (!isTouchingGround)
+        {
+            //transform.rotation = new Quaternion(0, 0, rotationSpeed * Mathf.Sin(Time.time - Time.deltaTime), 1);
+        }
+
         if (timer >= slowTime)
         {
             //StopSloMo();
@@ -69,7 +75,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (!isTouchingGround)
             return;
-
+        
         rb.AddForce(Vector2.up * jumpStrength);
         jumpSource.PlayOneShot(jumpNoise);
     }
