@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
             Jump();
         
         //Debug.Log(rb.velocity.y);
-        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= -0)
+        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0)
         {
             Debug.Log("APEX");
             timer = 0;
