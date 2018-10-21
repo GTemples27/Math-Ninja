@@ -53,4 +53,5 @@ public class InputHandler : MonoBehaviour {
         question.text = num1.ToString() + operators[operation] + num2.ToString();
         GameManager.instance.askQuestion = false;
     }
+
 }
