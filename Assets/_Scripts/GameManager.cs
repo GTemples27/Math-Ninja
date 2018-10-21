@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using System;
 
 public class GameManager : MonoBehaviour {
     public static GameManager instance = null;
@@ -18,6 +20,7 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
+    public InputField answer;
     public bool isGameOver;
     public bool askQuestion;
     //0 = add, 1 = sub, 2 = mult, 3 = div
@@ -33,5 +36,12 @@ public class GameManager : MonoBehaviour {
     {
         operationChosen = choice;
         ChangeScene(1);
+    }
+
+    public int GetResponse()
+    {
+        int input = 0;
+        Int32.TryParse(answer.text, out input);
+        return input;
     }
 }

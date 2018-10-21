@@ -25,6 +25,17 @@ public class InputHandler : MonoBehaviour {
         if (GameManager.instance.askQuestion && !GameManager.instance.isGameOver) { 
             AskQuestion();
             answer.gameObject.SetActive(true);
+            GetAnswer();
+        }
+    }
+
+    private void GetAnswer()
+    {
+        answer.gameObject.SetActive(true);
+        int answerInt = 0;
+        while (!Input.GetKeyDown("enter"))
+        {
+            answerInt = GameManager.instance.GetResponse();
         }
     }
 
