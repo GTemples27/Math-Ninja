@@ -7,27 +7,28 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float jumpStrength = 3;
-    [SerializeField] private AudioClip jumpNoise;
-    [SerializeField] private float slowTime = 2;
-    [SerializeField] private float rotationSpeed = 1;
+    [SerializeField] private readonly AudioClip jumpNoise;
+
 
     private bool isTouchingGround = true;
-    private bool isInSloMo = false;
     private AudioSource jumpSource;
     private float timer;
     public List<float> velocityValues;
+    private float deltaTime;
 
     // Use this for initialization
     void Start () {
-
+        isTouchingGround = true;
         GameManager.instance.isGameOver = false;
         GameManager.instance.askQuestion = false;
         rb = GetComponent<Rigidbody2D>();
         jumpSource = GetComponent<AudioSource>();
         timer = 0;
-        velocityValues = new List<float>();
-        velocityValues.Add(rb.velocity.y);
-        velocityValues.Add(rb.velocity.y);
+        velocityValues = new List<float>
+        {
+            rb.velocity.y,
+            rb.velocity.y
+        };
     }
 	
 	// Update is called once per frame
@@ -36,44 +37,42 @@ public class PlayerController : MonoBehaviour {
         velocityValues.RemoveAt(0);
 
         if (Input.GetKeyDown(KeyCode.Space) && !GameManager.instance.isGameOver)
+        {
             Jump();
-        
+            Debug.Log("pew");
+        }
+
         //Debug.Log(rb.velocity.y);
-        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0)
+        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0 && timer != deltaTime)
         {
             Debug.Log("APEX");
             GameManager.instance.askQuestion = true;
             timer = 0;
-            isInSloMo = true;
-            //StartSloMo();
+            //FreezeTime();
         }
 
-        if (isInSloMo)
-            timer += Time.deltaTime;
-
-        if (timer >= slowTime)
-        {
-            //StopSloMo();
-        }
+        timer += Time.deltaTime;
+        deltaTime = Time.deltaTime;
+        
     }
 
-    public void StartSloMo()
+    public void FreezeTime()
     {
-        Time.timeScale = 0.2f;
         Debug.Log("Start");
+        Time.timeScale = 0f;       
     }
 
-    public void StopSloMo()
+    public void StopFreeze()
     {
-        Time.timeScale = 1f;
         Debug.Log("End");
+        Time.timeScale = 1f;
     }
 
     public void Jump()
     {
         if (!isTouchingGround)
             return;
-        
+
         rb.AddForce(Vector2.up * jumpStrength);
         jumpSource.PlayOneShot(jumpNoise);
     }
@@ -84,7 +83,11 @@ public class PlayerController : MonoBehaviour {
             isTouchingGround = true;
 
         if (collision.transform.tag == "Obstacle")
+        {
             GameManager.instance.isGameOver = true;
+            PolygonCollider2D collider = collision.gameObject.GetComponent<PolygonCollider2D>();
+            collider.enabled = false;
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
