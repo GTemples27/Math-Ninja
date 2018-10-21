@@ -35,11 +35,11 @@ public class PlayerController : MonoBehaviour {
         velocityValues.Add(rb.velocity.y);
         velocityValues.RemoveAt(0);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && !GameManager.instance.isGameOver)
             Jump();
         
         //Debug.Log(rb.velocity.y);
-        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0 && !GameManager.instance.isGameOver)
+        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0)
         {
             Debug.Log("APEX");
             GameManager.instance.askQuestion = true;

@@ -21,7 +21,7 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.instance.askQuestion)
+        if (GameManager.instance.askQuestion && !GameManager.instance.isGameOver)
             AskQuestion();
 	}
 
