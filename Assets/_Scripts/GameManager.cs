@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour {
-    private static GameManager instance = null;
-
+    public static GameManager instance = null;
     private void Awake()
     {
         if (instance == null)
@@ -18,5 +18,20 @@ public class GameManager : MonoBehaviour {
         DontDestroyOnLoad(gameObject);
     }
 
+    public bool isGameOver;
+    public bool askQuestion;
+    //0 = add, 1 = sub, 2 = mult, 3 = div
+    public int operationChosen;
 
+    //Button Functions
+    public void ChangeScene(int scene)
+    {
+        SceneManager.LoadSceneAsync(scene);
+    }
+
+    public void ChooseOperation(int choice)
+    {
+        operationChosen = choice;
+        ChangeScene(1);
+    }
 }

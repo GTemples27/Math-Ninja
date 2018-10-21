@@ -19,6 +19,9 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+
+        GameManager.instance.isGameOver = false;
+        GameManager.instance.askQuestion = false;
         rb = GetComponent<Rigidbody2D>();
         jumpSource = GetComponent<AudioSource>();
         timer = 0;
@@ -31,13 +34,15 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         velocityValues.Add(rb.velocity.y);
         velocityValues.RemoveAt(0);
+
         if (Input.GetKeyDown(KeyCode.Space))
             Jump();
         
         //Debug.Log(rb.velocity.y);
-        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0)
+        if (!isTouchingGround && (velocityValues[0] * velocityValues[1]) <= 0 && !GameManager.instance.isGameOver)
         {
             Debug.Log("APEX");
+            GameManager.instance.askQuestion = true;
             timer = 0;
             isInSloMo = true;
             //StartSloMo();
@@ -46,18 +51,11 @@ public class PlayerController : MonoBehaviour {
         if (isInSloMo)
             timer += Time.deltaTime;
 
-        if (!isTouchingGround)
-        {
-            //transform.rotation = new Quaternion(0, 0, rotationSpeed * Mathf.Sin(Time.time - Time.deltaTime), 1);
-        }
-
         if (timer >= slowTime)
         {
             //StopSloMo();
         }
-        //Debug.Log("Last:" + velocityValues[0].ToString() + "; This: " + velocityValues[1].ToString());
     }
-    
 
     public void StartSloMo()
     {
@@ -84,6 +82,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.transform.tag == "Ground")
             isTouchingGround = true;
+
+        if (collision.transform.tag == "Obstacle")
+            GameManager.instance.isGameOver = true;
     }
 
     private void OnCollisionExit2D(Collision2D collision)
