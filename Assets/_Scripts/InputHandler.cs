@@ -10,6 +10,7 @@ public class InputHandler : MonoBehaviour {
 
     public List<char> operators;
     private int operation, num1, num2;
+    private bool questionAsked;
 	// Use this for initialization
 	void Start () {
         operation = GameManager.instance.operationChosen;
@@ -22,20 +23,34 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //if it can ask a question, it will
         if (GameManager.instance.askQuestion && !GameManager.instance.isGameOver) { 
             AskQuestion();
             answer.gameObject.SetActive(true);
+            questionAsked = true;
+        }
+
+        //after question asked, it will check if the answer is correct
+        if (questionAsked)
+        {
             GetAnswer();
         }
     }
 
+
     private void GetAnswer()
     {
         answer.gameObject.SetActive(true);
-        int answerInt = 0;
+        /*int answerInt = 0;
         while (!Input.GetKeyDown("enter"))
         {
             answerInt = GameManager.instance.GetResponse();
+        }*/
+        //it just compares the int to the correct answer
+        if (GameManager.GetResponse(answer) == getCorrectAnswer()){
+            answer.gameObject.SetActive(false);
+            questionAsked = false;
+            answer.text = "";
         }
     }
 
@@ -64,5 +79,29 @@ public class InputHandler : MonoBehaviour {
         question.text = num1.ToString() + operators[operation] + num2.ToString();
         GameManager.instance.askQuestion = false;
     }
+
+    //gets the correct answer to the operation according to the operation used
+    //returns the correct answer as an int
+    private int getCorrectAnswer()
+    {
+        int correctAnswer = -1;
+        switch (operation)
+        {
+            case 0:
+                correctAnswer = num1 + num2;
+                break;
+            case 1:
+                correctAnswer = num1 - num2;
+                break;
+            case 2:
+                correctAnswer = num1 * num2;
+                break;
+            default:
+                correctAnswer = num1 / num2;
+                break;
+        }
+        return correctAnswer;
+    }
+
 
 }

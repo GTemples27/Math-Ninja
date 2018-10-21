@@ -38,10 +38,13 @@ public class GameManager : MonoBehaviour {
         ChangeScene(1);
     }
 
-    public int GetResponse()
+    //turns an input field to an integer [can be used in other files]
+    //outputs the integer of the input field
+    public static int GetResponse(InputField Answer)
     {
         int input = 0;
-        Int32.TryParse(answer.text, out input);
+        Int32.TryParse(Answer.text, out input);
+        //Debug.Log("Answer:" + input.ToString());
         return input;
     }
 }
