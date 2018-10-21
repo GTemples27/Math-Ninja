@@ -48,5 +48,6 @@ public class InputHandler : MonoBehaviour {
                 break;
         }
         question.text = num1.ToString() + operators[operation] + num2.ToString();
+        GameManager.instance.askQuestion = false;
     }
 }
