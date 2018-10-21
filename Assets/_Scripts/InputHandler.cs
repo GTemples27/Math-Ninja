@@ -10,7 +10,7 @@ public class InputHandler : MonoBehaviour {
 
     public List<char> operators;
     private int operation, num1, num2;
-    private bool questionAsked;
+    public static bool questionAsked;
 	// Use this for initialization
 	void Start () {
         operation = GameManager.instance.operationChosen;
@@ -46,11 +46,19 @@ public class InputHandler : MonoBehaviour {
         {
             answerInt = GameManager.instance.GetResponse();
         }*/
+
         //it just compares the int to the correct answer
+        //if it is correct, the warp effect takes place and time is reset
         if (GameManager.GetResponse(answer) == getCorrectAnswer()){
             answer.gameObject.SetActive(false);
             questionAsked = false;
             answer.text = "";
+            PlayerController.timeSlow = false;
+            Debug.Log("time back");
+
+            // try to work out warping here
+            PlayerController.isWarping = true;
+            PlayerController.warpingTimer = 0;
         }
     }
 
