@@ -13,6 +13,7 @@ public class InputHandler : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         operation = GameManager.instance.operationChosen;
+        answer.gameObject.SetActive(false);
         //operators.Add('+');
         //operators.Add('-');
         //operators.Add('*');
@@ -21,9 +22,11 @@ public class InputHandler : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (GameManager.instance.askQuestion && !GameManager.instance.isGameOver)
+        if (GameManager.instance.askQuestion && !GameManager.instance.isGameOver) { 
             AskQuestion();
-	}
+            answer.gameObject.SetActive(true);
+        }
+    }
 
     private void AskQuestion()
     {
