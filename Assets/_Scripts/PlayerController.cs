@@ -53,6 +53,7 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             GameManager.instance.isGameOver = true;
+            Application.Quit();
         }
 
         if (Input.GetKeyDown(KeyCode.Space) && !GameManager.instance.isGameOver)

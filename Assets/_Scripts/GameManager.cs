@@ -43,8 +43,15 @@ public class GameManager : MonoBehaviour {
     public static int GetResponse(InputField Answer)
     {
         int input = 0;
-        Int32.TryParse(Answer.text, out input);
-        //Debug.Log("Answer:" + input.ToString());
+        //instance of correct answer = 0
+        if (Answer.text.CompareTo("") == 0)
+        {
+            input = -1;
+        }
+        else { 
+            Int32.TryParse(Answer.text, out input);
+            //Debug.Log("Answer:" + input.ToString());
+        }
         return input;
     }
 }
